@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.loveqrc.rxjavastudy.disposables.Disposable
+import com.loveqrc.rxjavastudy.functions.Function
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -19,7 +20,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun doSomeWork() {
-        getObservable().subscribe(getObserver())
+        getObservable()
+            .map { t ->
+                "Hello :$t"
+            }
+            .subscribe(getObserver())
     }
 
     private fun getObservable(): Observable<out String> {

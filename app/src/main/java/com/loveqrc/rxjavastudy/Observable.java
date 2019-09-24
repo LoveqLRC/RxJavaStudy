@@ -1,15 +1,17 @@
 package com.loveqrc.rxjavastudy;
 
 
+import com.loveqrc.rxjavastudy.functions.Function;
 import com.loveqrc.rxjavastudy.observable.ObservableFromArray;
+import com.loveqrc.rxjavastudy.observable.ObservableMap;
 import com.loveqrc.rxjavastudy.plugins.RxJavaPlugins;
 
 /**
  * Created by Rc on 2019-09-12
  */
-public abstract class Observable<T> {
+public abstract class Observable<T> implements ObservableSource<T> {
 
-
+    @Override
     public final void subscribe(Observer<? super T> observer) {
         try {
             subscribeActual(observer);
@@ -20,6 +22,11 @@ public abstract class Observable<T> {
             npe.initCause(e);
             throw npe;
         }
+    }
+
+    public final <R> Observable<R> map(Function<? super T, ? extends R> mapper) {
+
+        return RxJavaPlugins.onAssembly(new ObservableMap<T, R>(this, mapper));
     }
 
 
